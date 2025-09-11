@@ -490,7 +490,7 @@ public:
 	void SetAbs  ()      { x=std::abs(x); y=std::abs(y); z=std::abs(z); w=std::abs(w); }	//!< Converts all negative components to positive values
 
 	//!@name Unary operators
-	Vec4 operator - () const { Vec4 r; r.x=-x; r.y=-y; r.z=-z; r.w=-w; return r; } 
+	CY_NODISCARD Vec4 operator - () const { Vec4 r; r.x=-x; r.y=-y; r.z=-z; r.w=-w; return r; } 
 
 	//!@name Binary operators
 	CY_NODISCARD Vec4 operator + ( Vec4 const &p ) const { Vec4 r; r.x=x+p.x; r.y=y+p.y; r.z=z+p.z; r.w=w+p.w; return r; }
