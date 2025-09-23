@@ -1261,11 +1261,12 @@ public:
 	//////////////////////////////////////////////////////////////////////////
 	//!@name Get Sub-matrix cell
 
-	CY_NODISCARD Matrix3<T> GetSubMatrix3 () const { Matrix3<T> m; MemCopy(m.cell,cell,9); return m; }	//!< Returns the 3x3 portion of the matrix
-	CY_NODISCARD Matrix2<T> GetSubMatrix2 () const { Matrix2<T> m; MemCopy(m.cell,cell,2); MemCopy(m.cell+2,cell+3,2); return m; }	//!< Returns the 2x2 portion of the matrix
-	CY_NODISCARD Vec3<T>    GetTranslation() const { return Column(3); }								//!< Returns the translation component of the matrix
-	CY_NODISCARD Matrix3<T> GetRotation   () const { Matrix3<T> m(*this); return m.GetRotation(); }		//!< Returns the rotation portion of the transformation
-	CY_NODISCARD Matrix3<T> GetScale      () const { Matrix3<T> m(*this); return m.GetScale   (); }		//!< Returns the scale portion of the transformation.
+	CY_NODISCARD Matrix3<T>       & GetSubMatrix3 ()       { return *(Matrix3<T>*)this; }	//!< Returns the 3x3 portion of the matrix
+	CY_NODISCARD Matrix3<T> const & GetSubMatrix3 () const { return *(Matrix3<T>*)this; }	//!< Returns the 3x3 portion of the matrix
+	CY_NODISCARD Matrix2<T>         GetSubMatrix2 () const { Matrix2<T> m; MemCopy(m.cell,cell,2); MemCopy(m.cell+2,cell+3,2); return m; }	//!< Returns the 2x2 portion of the matrix
+	CY_NODISCARD Vec3<T>            GetTranslation() const { return Column(3); }								//!< Returns the translation component of the matrix
+	CY_NODISCARD Matrix3<T>         GetRotation   () const { Matrix3<T> m(*this); return m.GetRotation(); }		//!< Returns the rotation portion of the transformation
+	CY_NODISCARD Matrix3<T>         GetScale      () const { Matrix3<T> m(*this); return m.GetScale   (); }		//!< Returns the scale portion of the transformation.
 
 	//! Returns the average scale factor of the 3 by 3 sub-matrix
 	T GetAvrgScale() const 
