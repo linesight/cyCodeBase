@@ -91,6 +91,9 @@ public:
 	CY_NODISCARD bool IsBlack   () const { return r==0.0f && g==0.0f && b==0.0f; }	//!< Returns true if all components are exactly zero.
 	CY_NODISCARD bool IsFinite  () const { return cy::IsFinite(r) && cy::IsFinite(g) && cy::IsFinite(b); }	//!< Returns true if all components are finite real numbers.
 
+	CY_NODISCARD Color Linear2sRGB() const { auto f=[](float cl){ return cl<0.0031308f ? cl*12.92f : powf(cl,0.41666f)*1.055f-0.055f; }; return Color(f(r),f(g),f(b)); }	//!< Converts linear RGB to sRGB.
+	CY_NODISCARD Color sRGB2Linear() const { auto f=[](float cs){ return cs<=0.04045f  ? cs/12.92f : powf( (cs+0.055f)/1.055f, 2.4f); }; return Color(f(r),f(g),f(b)); }	//!< Converts sRGB to linear RGB.
+
 	//!@name Generic template methods
 	template <typename F = float(*)(float)>
 	void Apply( F func ) { r=func(r); g=func(g); b=func(b); }	//!< Applies the given function to all color components.
@@ -107,14 +110,14 @@ public:
 	CY_NODISCARD Color  operator - () const { return Color(-r,-g,-b); } 
 
 	//!@name Binary operators
-	CY_NODISCARD Color  operator + ( Color const &c ) const { return Color(r+c.r, g+c.g, b+c.b); }
-	CY_NODISCARD Color  operator - ( Color const &c ) const { return Color(r-c.r, g-c.g, b-c.b); }
-	CY_NODISCARD Color  operator * ( Color const &c ) const { return Color(r*c.r, g*c.g, b*c.b); }
-	CY_NODISCARD Color  operator / ( Color const &c ) const { return Color(r/c.r, g/c.g, b/c.b); }
-	CY_NODISCARD Color  operator + ( float const &n ) const { return Color(r+n, g+n, b+n); }
-	CY_NODISCARD Color  operator - ( float const &n ) const { return Color(r-n, g-n, b-n); }
-	CY_NODISCARD Color  operator * ( float const &n ) const { return Color(r*n, g*n, b*n); }
-	CY_NODISCARD Color  operator / ( float const &n ) const { return Color(r/n, g/n, b/n); }
+	CY_NODISCARD Color operator + ( Color const &c ) const { return Color(r+c.r, g+c.g, b+c.b); }
+	CY_NODISCARD Color operator - ( Color const &c ) const { return Color(r-c.r, g-c.g, b-c.b); }
+	CY_NODISCARD Color operator * ( Color const &c ) const { return Color(r*c.r, g*c.g, b*c.b); }
+	CY_NODISCARD Color operator / ( Color const &c ) const { return Color(r/c.r, g/c.g, b/c.b); }
+	CY_NODISCARD Color operator + ( float const &n ) const { return Color(r+n, g+n, b+n); }
+	CY_NODISCARD Color operator - ( float const &n ) const { return Color(r-n, g-n, b-n); }
+	CY_NODISCARD Color operator * ( float const &n ) const { return Color(r*n, g*n, b*n); }
+	CY_NODISCARD Color operator / ( float const &n ) const { return Color(r/n, g/n, b/n); }
 
 	//!@name Assignment operators
 	Color& operator += ( Color const &c ) { r+=c.r; g+=c.g; b+=c.b; return *this; }
@@ -184,6 +187,9 @@ public:
 	CY_NODISCARD bool IsBlack   () const { return r==0.0f && g==0.0f && b==0.0f; }	//!< Returns true if the r, g, and b components are exactly zero.
 	CY_NODISCARD bool IsFinite  () const { return cy::IsFinite(r) && cy::IsFinite(g) && cy::IsFinite(b) && cy::IsFinite(a); }	//!< Returns true if all components are finite real numbers.
 
+	CY_NODISCARD ColorA Linear2sRGB() const { return ColorA(Color(r,g,b).Linear2sRGB(),a); }	//!< Converts linear RGB to sRGB.
+	CY_NODISCARD ColorA sRGB2Linear() const { return ColorA(Color(r,g,b).sRGB2Linear(),a); }	//!< Converts sRGB to linear RGB.
+
 	//!@name Generic template methods
 	template <typename F = float(*)(float)>
 	void Apply( F func ) { r=func(r); g=func(g); b=func(b); }	//!< Applies the given function to all color components.
@@ -200,14 +206,14 @@ public:
 	CY_NODISCARD ColorA  operator - () const { return ColorA(-r,-g,-b,-a); } 
 
 	//!@name Binary operators
-	CY_NODISCARD ColorA  operator + ( ColorA const &c ) const { return ColorA(r+c.r, g+c.g, b+c.b, a+c.a); }
-	CY_NODISCARD ColorA  operator - ( ColorA const &c ) const { return ColorA(r-c.r, g-c.g, b-c.b, a-c.a); }
-	CY_NODISCARD ColorA  operator * ( ColorA const &c ) const { return ColorA(r*c.r, g*c.g, b*c.b, a*c.a); }
-	CY_NODISCARD ColorA  operator / ( ColorA const &c ) const { return ColorA(r/c.r, g/c.g, b/c.b, a/c.a); }
-	CY_NODISCARD ColorA  operator + ( float  const &n ) const { return ColorA(r+n, g+n, b+n, a+n); }
-	CY_NODISCARD ColorA  operator - ( float  const &n ) const { return ColorA(r-n, g-n, b-n, a-n); }
-	CY_NODISCARD ColorA  operator * ( float  const &n ) const { return ColorA(r*n, g*n, b*n, a*n); }
-	CY_NODISCARD ColorA  operator / ( float  const &n ) const { return ColorA(r/n, g/n, b/n, a/n); }
+	CY_NODISCARD ColorA operator + ( ColorA const &c ) const { return ColorA(r+c.r, g+c.g, b+c.b, a+c.a); }
+	CY_NODISCARD ColorA operator - ( ColorA const &c ) const { return ColorA(r-c.r, g-c.g, b-c.b, a-c.a); }
+	CY_NODISCARD ColorA operator * ( ColorA const &c ) const { return ColorA(r*c.r, g*c.g, b*c.b, a*c.a); }
+	CY_NODISCARD ColorA operator / ( ColorA const &c ) const { return ColorA(r/c.r, g/c.g, b/c.b, a/c.a); }
+	CY_NODISCARD ColorA operator + ( float  const &n ) const { return ColorA(r+n, g+n, b+n, a+n); }
+	CY_NODISCARD ColorA operator - ( float  const &n ) const { return ColorA(r-n, g-n, b-n, a-n); }
+	CY_NODISCARD ColorA operator * ( float  const &n ) const { return ColorA(r*n, g*n, b*n, a*n); }
+	CY_NODISCARD ColorA operator / ( float  const &n ) const { return ColorA(r/n, g/n, b/n, a/n); }
 
 	//!@name Assignment operators
 	ColorA& operator += ( ColorA const &c ) { r+=c.r; g+=c.g; b+=c.b; a+=c.a; return *this; }
