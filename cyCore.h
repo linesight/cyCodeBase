@@ -241,12 +241,11 @@ template <typename T, typename... R> CY_NODISCARD inline T Min  ( T const &v, R.
 template <typename T>                CY_NODISCARD inline T Clamp( T const &v, T const &minVal, T const &maxVal ) { return Min(maxVal,Max(minVal,v)); }
 template <typename T>                CY_NODISCARD inline T Clamp( T const &v ) { return Clamp(v,T(0),T(1)); }
 
-template <typename T> struct _Pow {
-	template <unsigned int N> static T Eval( T const &v ) { return v * _Pow<T>::Eval<N-1>(v); }
-	template <> static T Eval<1u>( T const &v ) { return v; }
-	template <> static T Eval<0u>( T const &v ) { return T(1); }
-};
-template <unsigned int N, typename T> CY_NODISCARD inline T Pow( T const &v ) { return _Pow<T>::Eval<N>(v); }
+template <unsigned int N> struct _Pow     { template <typename T> static T Eval( T const &v ) { return v * _Pow<N-1>::template Eval<T>(v); } };
+template <>               struct _Pow<1u> { template <typename T> static T Eval( T const &v ) { return v;    } };
+template <>               struct _Pow<0u> { template <typename T> static T Eval( T const &v ) { return T(1); } };
+
+template <unsigned int N, typename T> CY_NODISCARD inline T Pow( T const &v ) { return _Pow<N>::template Eval<T>(v); }
 
 template <typename T> CY_NODISCARD inline T ACosSafe ( T v ) { return (T) std::acos(Clamp(v,T(-1),T(1))); }
 template <typename T> CY_NODISCARD inline T ASinSafe ( T v ) { return (T) std::asin(Clamp(v,T(-1),T(1))); }
