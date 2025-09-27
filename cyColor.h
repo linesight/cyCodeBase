@@ -370,7 +370,7 @@ inline Color  Exp2 ( Color  const &c ) { return c.GetApplied(std::exp2 ); }	//!<
 inline Color  Log  ( Color  const &c ) { return c.GetApplied(std::log  ); }	//!< Returns a color with natural logarithm applied to all components.
 inline Color  Log2 ( Color  const &c ) { return c.GetApplied(std::log2 ); }	//!< Returns a color with base-2 logarithm applied to all components.
 inline Color  Log10( Color  const &c ) { return c.GetApplied(std::log10); }	//!< Returns a color with base-10 logarithm applied to all components.
-inline Color  Sqrt ( Color  const &c ) { return c.GetApplied( cy::Sqrt ); }	//!< Returns a color with square root applied to all components.
+inline Color  Sqrt ( Color  const &c ) { return c.GetApplied(cy::Sqrt<float>); }	//!< Returns a color with square root applied to all components.
 inline Color  Pow  ( Color  const &c, float exponent ) { return c.GetApplied([&exponent](float v){ return std::pow(v,exponent); }); }	//!< Returns a color with square root applied to all components.
 
 inline ColorA Abs  ( ColorA const &c ) { return c.GetApplied(std::abs  ); }	//!< Returns a color with abs applied to all components.
@@ -379,7 +379,7 @@ inline ColorA Exp2 ( ColorA const &c ) { return c.GetApplied(std::exp2 ); }	//!<
 inline ColorA Log  ( ColorA const &c ) { return c.GetApplied(std::log  ); }	//!< Returns a color with natural logarithm applied to all components.
 inline ColorA Log2 ( ColorA const &c ) { return c.GetApplied(std::log2 ); }	//!< Returns a color with base-2 logarithm applied to all components.
 inline ColorA Log10( ColorA const &c ) { return c.GetApplied(std::log10); }	//!< Returns a color with base-10 logarithm applied to all components.
-inline ColorA Sqrt ( ColorA const &c ) { return c.GetApplied( cy::Sqrt ); }	//!< Returns a color with square root applied to all components.
+inline ColorA Sqrt ( ColorA const &c ) { return c.GetApplied(cy::Sqrt<float>); }	//!< Returns a color with square root applied to all components.
 inline ColorA Pow  ( ColorA const &c, float exponent ) { return c.GetApplied([&exponent](float v){ return std::pow(v,exponent); }); }	//!< Returns a color with square root applied to all components.
 
 //-------------------------------------------------------------------------------
