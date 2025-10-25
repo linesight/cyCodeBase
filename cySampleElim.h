@@ -346,7 +346,7 @@ private:
 				index.push_back(ix);
 			};
 			for ( SIZE_TYPE i=0; i<inputSize; i++ ) TilePoint( i, inputPoints[i], d_max, AppendPoint );
-			kdtree.Build( point.size(), point.data(), index.data() );
+			kdtree.Build( static_cast<SIZE_TYPE>(point.size()), point.data(), index.data() );
 		} else {
 			kdtree.Build( inputSize, inputPoints );
 		}
